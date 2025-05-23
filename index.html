@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jesus Loves You, Principal Laura</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Jesus loves you, Principal Laura!</h1>
+    <button id="addButton" onclick="addItem()"> + </button>
+  </header>
+  
+  <main>
+    <ul id="todo-list"></ul>
+  </main>
+
+  <div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+      <textarea id="edit-text"></textarea>
+      <select id="edit-category"></select>
+      <input type="date" id="edit-due-date" />
+      <button onclick="saveEdit()">Save</button>
+      <button onclick="closeModal()">Cancel</button>
+      <!-- add due date -->
+    </div>
+  </div>
+  
+  <footer>
+    <button onclick="showSection('all')">To-Do</button>
+    <button onclick="showSection('completed')">Completed</button>
+    <button onclick="showSection('archived')">Archived</button>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
