@@ -65,7 +65,7 @@ function renderTodos() {
 }
 
 function addItem() {
-  todos.push({ text: "New Task", category: "Category", archived: false, completed: false });
+  todos.push({ text: "", category: "Category", archived: false, completed: false });
   renderTodos();
 }
 
