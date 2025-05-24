@@ -33,7 +33,7 @@ function renderTodos() {
 
     li.innerHTML = `
   <div style="flex: 1;">
-    <span onclick="openModal(${li.dataset.index})" style="display: block; word-wrap: break-word;">${todo.text}</span>
+    
     ${todo.dueDate ? `<div style="font-size: 0.85em; color: #777;">Due: ${todo.dueDate}</div>` : ""}
     ${todo.completed && todo.completedDate ? `<div style="font-size: 0.85em; color: #555;">Completed: ${todo.completedDate}</div>` : ""}
   </div>
