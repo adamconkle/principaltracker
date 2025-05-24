@@ -145,60 +145,83 @@ function enableDragAndDrop() {
 //mobile-friendly drag and drop
 function enableDragAndDrop() {
   const list = document.getElementById("todo-list");
-  let draggedEl = null;
-  let touchStartY = 0;
-  let moved = false;
 
+  // --- Desktop drag-and-drop
+  list.addEventListener("dragover", e => {
+    e.preventDefault();
+    const dragging = document.querySelector(".dragging");
+    const after = [...list.children].find(li => {
+      return e.clientY < li.getBoundingClientRect().top + li.offsetHeight / 2;
+    });
+    if (after && dragging !== after) {
+      list.insertBefore(dragging, after);
+    } else if (!after) {
+      list.appendChild(dragging);
+    }
+  });
+
+  list.addEventListener("drop", () => {
+    todos = [...list.children].map(li => todos[+li.dataset.index]);
+    renderTodos();
+  });
+
+  // --- Mobile touch-drag
   [...list.children].forEach(item => {
+    let startY = 0;
+    let draggedEl = null;
+    let moved = false;
+
     item.ontouchstart = (e) => {
+      startY = e.touches[0].clientY;
       draggedEl = item;
-      touchStartY = e.touches[0].clientY;
+      draggedEl.classList.add("dragging");
       moved = false;
-      item.classList.add("dragging");
     };
 
     item.ontouchmove = (e) => {
-      e.preventDefault(); // Prevent scroll
-      const moveY = e.touches[0].clientY;
-      const delta = moveY - touchStartY;
-      if (Math.abs(delta) > 5) moved = true;
+      if (!draggedEl) return;
+      const deltaY = e.touches[0].clientY - startY;
+      if (Math.abs(deltaY) > 10) moved = true;
+      draggedEl.style.transform = `translateY(${deltaY}px)`;
 
-      draggedEl.style.transform = `translateY(${delta}px)`;
-      const siblings = [...list.children].filter(el => el !== draggedEl);
-      for (const sibling of siblings) {
-        const rect = sibling.getBoundingClientRect();
-        if (moveY < rect.top + rect.height / 2) {
-          list.insertBefore(draggedEl, sibling);
-          break;
-        }
+      const after = [...list.children].find(li => {
+        return li !== draggedEl && e.touches[0].clientY < li.getBoundingClientRect().top + li.offsetHeight / 2;
+      });
+      if (after && draggedEl !== after) {
+        list.insertBefore(draggedEl, after);
+      } else if (!after) {
+        list.appendChild(draggedEl);
       }
     };
+
     item.ontouchend = (e) => {
-  draggedEl.classList.remove("dragging");
-  draggedEl.style.transform = "";
+      if (!draggedEl) return;
+      draggedEl.classList.remove("dragging");
+      draggedEl.style.transform = "";
 
-  if (!moved) {
-    const touchedElement = document.elementFromPoint(
-      e.changedTouches[0].clientX,
-      e.changedTouches[0].clientY
-    );
+      if (!moved) {
+        const touchedElement = document.elementFromPoint(
+          e.changedTouches[0].clientX,
+          e.changedTouches[0].clientY
+        );
 
-    // Only open modal if the touch was NOT on a button or select
-    if (
-      touchedElement.tagName !== "BUTTON" &&
-      touchedElement.tagName !== "SELECT"
-    ) {
-      const index = draggedEl.dataset.index;
-      openModal(index);
-    }
-  } else {
-    // treat as drag
-    todos = [...list.children].map(li => todos[+li.dataset.index]);
-    renderTodos();
-  }
+        if (
+          touchedElement.tagName !== "BUTTON" &&
+          touchedElement.tagName !== "SELECT"
+        ) {
+          const index = draggedEl.dataset.index;
+          openModal(index);
+        }
+      } else {
+        todos = [...list.children].map(li => todos[+li.dataset.index]);
+        renderTodos();
+      }
 
-  draggedEl = null;
-};
+      draggedEl = null;
+    };
+  });
+}
+
 
     /*item.ontouchend = (e) => {
       draggedEl.classList.remove("dragging");
