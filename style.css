@@ -27,6 +27,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 0 0 0 3rem;
 }
 ul {
   list-style: none;
