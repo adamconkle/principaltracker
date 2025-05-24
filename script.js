@@ -118,6 +118,8 @@ function showSection(section) {
   renderTodos();
 }
 
+//NOT mobile friendly
+/*
 function enableDragAndDrop() {
   const list = document.getElementById("todo-list");
   list.addEventListener("dragover", e => {
@@ -138,6 +140,46 @@ function enableDragAndDrop() {
     renderTodos();
   });
 }
+*/
+
+//mobile-friendly drag and drop
+function enableDragAndDrop() {
+  const list = document.getElementById("todo-list");
+  let draggedEl = null;
+  let touchY = 0;
+
+  [...list.children].forEach(item => {
+    item.ontouchstart = (e) => {
+      draggedEl = item;
+      touchY = e.touches[0].clientY;
+      item.classList.add("dragging");
+    };
+
+    item.ontouchmove = (e) => {
+      e.preventDefault(); // Prevents scrolling
+      const moveY = e.touches[0].clientY;
+      const delta = moveY - touchY;
+      draggedEl.style.transform = `translateY(${delta}px)`;
+      const siblings = [...list.children].filter(el => el !== draggedEl);
+      for (const sibling of siblings) {
+        const rect = sibling.getBoundingClientRect();
+        if (moveY < rect.top + rect.height / 2) {
+          list.insertBefore(draggedEl, sibling);
+          break;
+        }
+      }
+    };
+
+    item.ontouchend = () => {
+      draggedEl.classList.remove("dragging");
+      draggedEl.style.transform = "";
+      draggedEl = null;
+      todos = [...list.children].map(li => todos[+li.dataset.index]);
+      renderTodos();
+    };
+  });
+}
+
 
 function saveTodos() {
   localStorage.setItem("todos", JSON.stringify(todos));
