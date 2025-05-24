@@ -113,14 +113,17 @@ footer {
   box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
 }
 footer button {
-  padding: 8px 16px;
-  background: #eee;
+  padding: 12px 24px;
+  font-size: 1rem;
+  background: dodgerblue;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 1rem 1rem 0 0;
   cursor: pointer;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
 }
 footer button:hover {
-  background: #ddd;
+  background: deepskyblue;
 }
 
 
