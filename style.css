@@ -45,9 +45,7 @@ li {
 li.dragging {
   opacity: 0.5;
 }
-select {
-  margin-left: 10px;
-}
+
 .modal {
   position: fixed;
   top: 0; left: 0;
