@@ -173,8 +173,34 @@ function enableDragAndDrop() {
         }
       }
     };
-
     item.ontouchend = (e) => {
+  draggedEl.classList.remove("dragging");
+  draggedEl.style.transform = "";
+
+  if (!moved) {
+    const touchedElement = document.elementFromPoint(
+      e.changedTouches[0].clientX,
+      e.changedTouches[0].clientY
+    );
+
+    // Only open modal if the touch was NOT on a button or select
+    if (
+      touchedElement.tagName !== "BUTTON" &&
+      touchedElement.tagName !== "SELECT"
+    ) {
+      const index = draggedEl.dataset.index;
+      openModal(index);
+    }
+  } else {
+    // treat as drag
+    todos = [...list.children].map(li => todos[+li.dataset.index]);
+    renderTodos();
+  }
+
+  draggedEl = null;
+};
+
+    /*item.ontouchend = (e) => {
       draggedEl.classList.remove("dragging");
       draggedEl.style.transform = "";
 
@@ -189,7 +215,7 @@ function enableDragAndDrop() {
       }
 
       draggedEl = null;
-    };
+    };*/
   });
 }
 
