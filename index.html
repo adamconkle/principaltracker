@@ -17,14 +17,15 @@
   </main>
 
   <div id="edit-modal" class="modal hidden">
-    <div class="modal-content">
-      <textarea id="edit-text"></textarea>
-      <select id="edit-category"></select>
-      <input type="date" id="edit-due-date" />
-      <button onclick="saveEdit()">Save</button>
-      <button onclick="closeModal()">Cancel</button>
-      <!-- add due date -->
-    </div>
+      <div class="modal-content">
+        <input id="edit-text" placeholder="Enter task...">
+        <select id="edit-category"></select>
+        <input type="date" id="edit-due-date">
+        <div class="modal-buttons">
+          <button id="saveEdit()">Save</button>
+          <button id="closeModal()">Cancel</button>
+        </div>
+      </div>
   </div>
   
   <footer>
