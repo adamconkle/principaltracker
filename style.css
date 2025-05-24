@@ -120,3 +120,11 @@ select {
   cursor: pointer;
 }
 
+/* drag and drop for mobile */
+.dragging {
+  opacity: 0.6;
+  z-index: 1000;
+  position: relative;
+}
+
+
