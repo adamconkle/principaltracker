@@ -74,6 +74,7 @@ function changeCategory(index, category) {
   renderTodos();
 }
 
+// sets date to today's date by default
 let editIndex = null;
 function openModal(index) {
   editIndex = index;
@@ -82,9 +83,16 @@ function openModal(index) {
   catSelect.innerHTML = Object.keys(categories).map(
     c => `<option value="${c}" ${todos[index].category === c ? "selected" : ""}>${c}</option>`
   ).join("");
-  document.getElementById("edit-due-date").value = todos[index].dueDate || "";
+
+  const dueDateInput = document.getElementById("edit-due-date");
+  if (todos[index].dueDate) {
+    dueDateInput.value = todos[index].dueDate;
+  } else {
+    dueDateInput.valueAsDate = new Date(); // <-- Sets today as default
+  }
   document.getElementById("edit-modal").classList.remove("hidden");
 }
+
 function saveEdit() {
   todos[editIndex].text = document.getElementById("edit-text").value;
   todos[editIndex].category = document.getElementById("edit-category").value;
