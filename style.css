@@ -99,24 +99,6 @@ li.dragging {
 .modal-buttons button:hover {
   background-color: deepskyblue;
 }
-/* Modal Mobile */
-@media (max-width: 600px) {
-  html {
-    font-size: 16px;
-  }
-
-  .modal-content {
-    width: 95%;
-    padding: 15px;
-  }
-
-  #addButton {
-    width: 80px;
-    height: 80px;
-    font-size: 60px;
-  }
-}
-
 
 
 footer {
